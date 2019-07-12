@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+
+
+{% block body %}
+
+
+<div class="jumbotron text-centre">
+        <h2 style="text-align: center" class="lead">Upcoming Events</h2>
+        {% if session.logged_in == NULL %}
+          <a href="/login" class="btn btn-success btn-lg">Login</a>
+        {% endif %}
+    
+        {%if len(Events)>1 %}
+        <div >
+            <table  id="myAnchor" style="width: 700px; margin-left: 180px;">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>College</th>
+                        <th>Start Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {%for i in Events%} 
+    
+                    <tr>
+                        <td>{{Events[i]['event_name']}}</td>
+                        <td>{{Events[i]['college_name']}}</td>
+                        <td>{{Events[i]['startdate']}}</td>
+                    </tr>
+                    {%endfor%}
+    
+                </tbody>
+            </table>
+    
+    
+        </div>
+        {% endif %}
+      </div>
+    
+    
+      
+        
+    {% endblock %}

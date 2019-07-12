@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% if not session.logged_in %}
+  <h1>Login</h1>
+  <form action="" method="POST">
+  <div class="form-row" style="width: 30%">
+	    <div class="form-group row-md-6">
+        <label>Username</label>
+                <input type="text" name="uname" class="form-control" value={{request.form.username}}>
+        </div>
+        <div class="form-group row-sm-6">
+          <label>Password</label>
+            <input type="password" name="pass" class="form-control" value={{request.form.password}}>
+        </div>
+        </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% endif %}
+{% endblock %}

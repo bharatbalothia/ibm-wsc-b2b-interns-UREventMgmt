@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>EventsApp</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<style>
+
+    
+	body {font-family: Arial, Helvetica, sans-serif;}
+	* {box-sizing: border-box;}
+
+	/* Button used to open the contact form - fixed at the bottom of the page */
+	.open-button {
+	  background-color: #555;
+	  color: white;
+	  padding: 16px 20px;
+	  border: none;
+	  cursor: pointer;
+	  opacity: 0.8;
+	  position: fixed;
+	  bottom: 23px;
+	  right: 28px;
+	  width: 280px;
+	}
+    table {
+      table-layout: fixed;
+      width: 100%;
+    }
+    td {
+      width: 50%;
+        padding-right: 40px;
+    }
+    td+td {
+      width: 50%;
+    }
+
+	/* The popup form - hidden by default */
+	.form-popup {
+	  display: none;
+	}
+    .table-popup{
+        display: none;
+    }
+
+	/* Add styles to the form container */
+	.form-container {
+	  max-width: 300px;
+	  padding: 100px;
+	  background-color: white;
+	}
+
+	/* Full-width input fields */
+	.form-container input[type=text], .form-container input[type=password] {
+	  width: 100%;
+	  padding: 15px;
+	  margin: 50px 0 22px 0;
+	  border: none;
+	  background: #f1f1f1;
+	}
+
+	/* When the inputs get focus, do something */
+	.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+	  background-color: #ddd;
+	  outline: none;
+	}
+
+	/* Set a style for the submit/login button */
+	.form-container .btn {
+	  background-color: #4CAF50;
+	  color: white;
+	  padding: 16px 20px;
+	  border: none;
+	  cursor: pointer;
+	  width: 100%;
+	  margin-bottom:10px;
+	  opacity: 0.8;
+	}
+
+	/* Add a red background color to the cancel button */
+	.form-container .cancel {
+	  background-color: red;
+	}
+
+    form{
+        width: 100%;
+    }
+
+	/* Add some hover effects to buttons */
+	.form-container .btn:hover, .open-button:hover {
+	  opacity: 1;
+	}
+    .sidenav {
+      height: 100%;
+      width: 150px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      overflow-x: hidden;
+      padding-top: 60px;
+    }
+
+
+    .navbar-brand img
+    {
+        max-height: 100%;
+    }
+</style>
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+        {% block body %}{% endblock %}<br><br>
+      {% include 'includes/_messages.html' %}
+
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
+    
+    <script type="text/javascript">
+      CKEDITOR.replace('editor')
+    </script>
+<script type="text/javascript">
+    function GetSelectedTextValu(ddlFruits) {
+        var selectedText = ddlFruits.options[ddlFruits.selectedIndex].innerHTML;
+        var selectedValue = ddlFruits.value;
+        alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+    }
+
+
+    $("#addNewInput").click(function(){
+          var newInput = $(document.createElement('input'))
+           .attr("id", 'newInput');
+          $("#new-field").append(newInput);
+        });
+</script>
+<script type="text/javascript">
+
+    function showTable(event_types)
+    {
+        console.log(event_types.value)
+        if(event_types.value==="Technical_Fest") {
+            console.log(event_types.value)
+            document.getElementById("normalEvent").style.display = "block";
+            document.getElementById("tech-session").style.display = "none";
+            document.getElementById("hackathon").style.display = "none";
+            document.getElementById("sur").style.display = "none";
+        }
+        if(event_types.value==="Tech_Session") {
+            console.log(event_types.value)
+            document.getElementById("normalEvent").style.display = "none";
+            document.getElementById("tech-session").style.display = "block";
+            document.getElementById("hackathon").style.display = "none";
+            document.getElementById("sur").style.display = "none";
+        }
+        if(event_types.value==="Hackathon") {
+            console.log(event_types.value)
+            document.getElementById("normalEvent").style.display = "none";
+            document.getElementById("tech-session").style.display = "none";
+            document.getElementById("hackathon").style.display = "block";
+            document.getElementById("sur").style.display = "none";
+        }
+        if(event_types.value==="SUR") {
+            console.log(event_types.value)
+            document.getElementById("normalEvent").style.display = "none";
+            document.getElementById("tech-session").style.display = "none";
+            document.getElementById("hackathon").style.display = "none";
+            document.getElementById("sur").style.display = "block";
+        }
+    }
+function openForm(events) {
+    console.log(events.value)
+    if(events.value==="")
+    {
+    document.getElementById("radio_form_for_hackathon").style.display = "none";
+    document.getElementById("radio_form").style.display = "none";
+    document.getElementById("tech_session").style.display = "none";
+    document.getElementById("myForm3").style.display = "none";
+    document.getElementById("myForm").style.display = "none";
+    document.getElementById("HackathonForm").style.display = "none";
+    }
+if(events.value=="Technical_Fest" || events.value=="Conference")
+{
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("tech_session").style.display = "none";
+document.getElementById("myForm3").style.display = "none";
+document.getElementById("myForm").style.display = "block";
+document.getElementById("HackathonForm").style.display = "none";
+}
+if(events.value=="Tech_Session" || events.value=="Tech_Workshop")
+
+{
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById("myForm").style.display = "none";
+document.getElementById("tech_session").style.display = "none";
+document.getElementById("myForm3").style.display = "none";
+document.getElementById("radio_form").style.display = "block";
+document.getElementById("HackathonForm").style.display = "none";
+}
+if(events.value=="Hackathon")
+
+{
+document.getElementById("radio_form_for_hackathon").style.display = "block";
+document.getElementById("myForm").style.display = "none";
+document.getElementById("tech_session").style.display = "none";
+document.getElementById("myForm3").style.display = "none";
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("HackathonForm").style.display = "none";
+}
+ // document.getElementById("myForm").style.display = "block";
+ //use render in id="myForm"
+ if(events.value=="SUR")
+ {
+ document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById("myForm").style.display = "none";
+document.getElementById("tech_session").style.display = "none";
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("myForm3").style.display = "block";
+document.getElementById("HackathonForm").style.display = "none";
+ }
+}
+
+function openRadioForm(radio_form)
+{
+if(radio_form=='yes')
+{
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById("myForm").style.display = "none";
+document.getElementById('eventlistfield').style.visibility ='visible';
+document.getElementById("tech_session").style.display = "block";
+}
+else
+{
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("tech_session").style.display = "block";
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById('eventlistfield').style.visibility = 'hidden';
+document.getElementById('list_of_events').value = ""
+
+}
+}
+
+function openRadioFormHackathon(radio_form_for_hackathon)
+{
+if(radio_form_for_hackathon=='yes')
+{
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById("myForm").style.display = "none";
+document.getElementById('eventlistfields').style.visibility ='visible';
+document.getElementById("HackathonForm").style.display = "block";
+}
+else
+{
+document.getElementById("radio_form").style.display = "none";
+document.getElementById("HackathonForm").style.display = "block";
+document.getElementById("radio_form_for_hackathon").style.display = "none";
+document.getElementById('eventlistfields').style.visibility = 'hidden';
+document.getElementsByName('list_of_events').value = ""
+
+console.log(document.getElementsByName('list_of_events').value)
+}
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+function sur_approved(){
+        document.getElementById('invoice_dates').style.visibility ='visible';
+        console.log("Approved")
+}
+function sur_rejected(){
+        document.getElementById('invoice_dates').style.visibility ='hidden';
+}
+function add_fields() {
+    // language=Jinja2
+    document.getElementById('wrapper').append('<div><input type="text" name="prof_name"></div>');
+}
+function travelShow() {
+    var checkBox = document.getElementById("travel_request");
+    if (checkBox.checked === true) {
+        document.getElementById('travel-content').style.display = "block";
+    }
+    else{
+        document.getElementById('travel-content').style.display = "none";
+    }
+}
+function poShow() {
+    var checkBox = document.getElementById("po_request");
+    if (checkBox.checked === true) {
+        document.getElementById('po-content').style.display = "block";
+    }
+    else{
+        document.getElementById('po-content').style.display = "none";
+    }
+}
+$(document).ready(function() {
+	var max_fields      = 10; //maximum input boxes allowed
+	var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
+	var add_button      = $(".add_field_button"); //Add button ID
+    var add_jury = $(".add_more_jury");
+    var jury_wrapper  = $(".jury-wrap");
+
+	var x = 1; //initlal text box count
+	$(add_button).click(function(e){ //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+			$(wrapper).append('<div><input type="text" class="form-control" name="prof_name"><a href="#" class="remove_field">Remove</a></div>'); //add input box
+		}
+	});
+	$(add_jury).click(function(e){ //on add input button click
+		e.preventDefault();
+		if(x < max_fields){ //max input box allowed
+			x++; //text box increment
+			$(jury_wrapper).append('<div><input class="form-control" id="jury_name" name="jury_name" required type="text" value=""><select class="form-control" id="bu" name="bu"><option value="ISL">ISL</option><option value="IRL">IRL</option><option value="GBS">GBS</option><option value="GTS">GTS</option></select><a href="#" class="remove_field">Remove</a></div>'); //add input box
+		}
+	});
+	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+		e.preventDefault(); $(this).parent('div').remove(); x--;
+	})
+    $(jury_wrapper).on("click",".remove_field", function(e){ //user click on remove text
+		e.preventDefault(); $(this).parent('div').remove(); x--;
+	})
+});
+
+</script>
+  </body>
+</html>

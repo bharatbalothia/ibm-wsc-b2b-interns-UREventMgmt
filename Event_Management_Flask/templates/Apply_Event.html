@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+
+
+{% block body %}
+
+<script>
+        $(document).ready( function () {
+        $('#myAnchor').DataTable();
+    } );
+          </script>
+
+  <div class="jumbotron text-centre">
+    
+    {% if session.logged_in == NULL %}
+      <h4>Sorry your session has ended, please login to continue!</h4>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+  
+     
+    {%else %}
+    <h2 style="text-align: center" class="lead">Event Details</h2>
+    <div >
+        <table style="width: 700px; margin-left: 180px;">
+            <thead>
+              
+            </thead>
+            <tbody>
+            {%for i in session['UpcomingEvents']%} 
+
+                <tr>
+                    <td>{{i['startdate']}}</td>
+                    <td><a href="">Apply Now</a></td>
+                </tr>
+                {%endfor%}
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+  </div>
+
+  {% endif %}
+  
+    
+{% endblock %}
+
+
+
+
+
+
+
